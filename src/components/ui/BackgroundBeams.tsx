@@ -15,7 +15,7 @@ export const BackgroundBeams: React.FC = () => {
             <stop offset="100%" stopColor="#06B6D4" stopOpacity="0" />
           </linearGradient>
         </defs>
-        
+
         {/* Repeating animated path flows */}
         <motion.path
           d="M 150 -100 L 150 1200"
@@ -30,7 +30,7 @@ export const BackgroundBeams: React.FC = () => {
             ease: "linear",
           }}
         />
-        
+
         <motion.path
           d="M 400 -100 L 600 1200"
           stroke="url(#beam-grad)"

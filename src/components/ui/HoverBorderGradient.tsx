@@ -15,11 +15,11 @@ export const HoverBorderGradient: React.FC<{
       onMouseLeave={() => setHovered(false)}
       onClick={onClick}
       className={cn(
-        "relative flex rounded-lg border border-neutral-800 bg-neutral-900 p-[1px] transition-colors duration-300 cursor-pointer overflow-hidden",
+        "relative flex rounded-lg border border-neutral-800 bg-neutral-900 p-[1px] transition-colors duration-300 cursor-pointer overflow-hidden focus-ring",
         className
       )}
     >
-      <div className="relative z-10 w-full rounded-[7px] bg-neutral-950 px-4 py-2 text-sm text-neutral-100 transition-colors duration-300">
+      <div className="relative z-10 w-full rounded-[7px] bg-neutral-950 px-4 py-2 text-sm text-neutral-100 transition-colors duration-300 flex items-center justify-center h-[38px]">
         {children}
       </div>
       {/* Border gradient highlight */}

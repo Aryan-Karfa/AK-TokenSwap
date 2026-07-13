@@ -30,17 +30,17 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
       // Entrance animations
       if (modalRef.current) {
         animate(modalRef.current, {
-          scale: [0.95, 1],
+          scale: [0.97, 1],
           opacity: [0, 1],
-          duration: 350,
-          easing: "easeOutBack",
+          duration: 200,
+          easing: "easeOutQuad",
         });
       }
 
       if (backdropRef.current) {
         animate(backdropRef.current, {
           opacity: [0, 1],
-          duration: 200,
+          duration: 150,
           easing: "easeOutQuad",
         });
       }

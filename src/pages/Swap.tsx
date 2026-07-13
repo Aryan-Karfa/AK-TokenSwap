@@ -9,9 +9,8 @@ export const Swap: React.FC = () => {
     animate(".animate-swap-card", {
       scale: [0.97, 1],
       opacity: [0, 1],
-      translateY: [15, 0],
-      duration: 650,
-      easing: "easeOutBack",
+      duration: 200,
+      easing: "easeOutQuad",
     });
   }, []);
 

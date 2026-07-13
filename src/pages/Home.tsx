@@ -27,9 +27,9 @@ export const Home: React.FC = () => {
   useEffect(() => {
     animate(".animate-fade", {
       opacity: [0, 1],
-      translateY: [20, 0],
-      duration: 800,
-      delay: stagger(150),
+      translateY: [10, 0],
+      duration: 200,
+      delay: stagger(45),
       easing: "easeOutQuad",
     });
   }, []);
@@ -46,10 +46,14 @@ export const Home: React.FC = () => {
         {/* Hero Section */}
         <section className="text-center max-w-3xl my-12 relative z-25">
           <h1 className="animate-fade opacity-0 text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-6">
-            Swap Stellar Assets <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-500">Instantly</span>
+            Swap Stellar Assets{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-500">
+              Instantly
+            </span>
           </h1>
-          <p className="animate-fade opacity-0 text-lg text-neutral-400 mb-8 max-w-2xl mx-auto leading-relaxed">
-            A clean, fast, and secure interface for swapping Stellar assets on the Stellar decentralized exchange.
+          <p className="animate-fade opacity-0 text-base sm:text-lg text-neutral-400 mb-8 max-w-xl mx-auto leading-relaxed">
+            A clean, fast, and secure interface for swapping Stellar assets on the Stellar
+            decentralized exchange.
           </p>
           <div className="animate-fade opacity-0 flex flex-wrap justify-center gap-4">
             <Link
@@ -96,17 +100,19 @@ export const Home: React.FC = () => {
               </div>
               <h3 className="text-lg font-bold text-white mb-2">Fast Transactions</h3>
               <p className="text-sm text-neutral-400 leading-relaxed">
-                Stellar's consensus protocol settles trades in under 5 seconds, enabling immediate path payment trades.
+                Stellar's consensus protocol settles trades in under 5 seconds, enabling immediate
+                path payment trades.
               </p>
             </div>
-            
+
             <div className="rounded-2xl border border-white/[0.05] bg-white/[0.02] hover:bg-white/[0.04] p-6 transition-all duration-300">
               <div className="mb-4 inline-flex rounded-lg bg-indigo-500/10 p-3 text-indigo-400">
                 <Shield className="h-5 w-5" />
               </div>
               <h3 className="text-lg font-bold text-white mb-2">Secure</h3>
               <p className="text-sm text-neutral-400 leading-relaxed">
-                Trade directly from your self-custody Freighter wallet. Your private keys never leave your device.
+                Trade directly from your self-custody Freighter wallet. Your private keys never
+                leave your device.
               </p>
             </div>
 

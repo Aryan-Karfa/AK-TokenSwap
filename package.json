@@ -6,10 +6,19 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "oxlint",
-    "preview": "vite preview"
+    "lint": "eslint src --max-warnings 0",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\" \"scripts/**/*.ts\" \"config/**/*.ts\"",
+    "format:write": "prettier --write \"src/**/*.{ts,tsx,css}\" \"scripts/**/*.ts\" \"config/**/*.ts\"",
+    "test": "vitest run",
+    "preview": "vite preview",
+    "prepare": "husky",
+    "bootstrap-liquidity": "tsx scripts/bootstrapLiquidity.ts",
+    "check-orderbook": "tsx scripts/checkOrderbook.ts",
+    "check-liquidity": "tsx scripts/checkLiquidity.ts",
+    "check-paths": "tsx scripts/checkPaths.ts"
   },
   "dependencies": {
+    "@fontsource/geist-sans": "^5.2.5",
     "@stellar/freighter-api": "^6.0.1",
     "@stellar/stellar-sdk": "^16.0.1",
     "@tailwindcss/vite": "^4.3.2",
@@ -24,12 +33,21 @@
     "tailwindcss": "^4.3.2"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "^24.13.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "@typescript-eslint/eslint-plugin": "^8.63.0",
+    "@typescript-eslint/parser": "^8.63.0",
     "@vitejs/plugin-react": "^6.0.3",
+    "eslint": "^10.7.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "oxlint": "^1.71.0",
+    "prettier": "^3.9.5",
+    "tsx": "^4.23.1",
     "typescript": "~6.0.2",
-    "vite": "^8.1.1"
+    "vite": "^8.1.1",
+    "vitest": "^4.1.10"
   }
 }

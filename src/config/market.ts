@@ -1,0 +1,5 @@
+export const MARKET_CONFIG = {
+  USDC_PER_XLM: 5,
+  AQUA_PER_XLM: 100,
+  DEFAULT_SPREAD: 0.02,
+};

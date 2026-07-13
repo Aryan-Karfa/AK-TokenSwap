@@ -1,14 +1,21 @@
-/**
- * Wallet operations helper service.
- * TODO: Implement wallet detection, account retrieval, and balance check in subsequent phases.
- */
+import { getAddress, isConnected, requestAccess } from "@stellar/freighter-api";
 
-export const isWalletInstalled = (): boolean => {
-  // TODO: Check if Freighter or other wallets are installed in the browser.
-  return false;
+export const connectWallet = async (): Promise<string | null> => {
+  const freighter = await isConnected();
+  if (!freighter.isConnected) {
+    throw new Error("Freighter wallet extension is not installed.");
+  }
+  const access = await requestAccess();
+  if (access.error) {
+    throw new Error(access.error.message || "Freighter connection request rejected.");
+  }
+  return access.address;
 };
 
-export const getAccountAddress = async (): Promise<string | null> => {
-  // TODO: Retrieve public address of connected account.
-  return null;
+export const getConnectedAccount = async (): Promise<string | null> => {
+  const res = await getAddress();
+  if (res.error) {
+    return null;
+  }
+  return res.address || null;
 };

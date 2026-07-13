@@ -1,4 +1,5 @@
 import React from "react";
+import packageJson from "../../../package.json";
 
 const GithubIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
@@ -17,15 +18,17 @@ const GithubIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-
 export const Footer: React.FC = () => {
   return (
-    <footer className="w-full border-t border-neutral-950 bg-neutral-950/80 py-6 mt-auto">
+    <footer className="w-full border-t border-white/[0.03] bg-neutral-950/80 py-6 mt-auto">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 text-center sm:flex-row sm:text-left sm:px-6 lg:px-8">
         <div className="flex flex-col gap-1">
-          <span className="text-sm font-semibold text-neutral-200">
-            StellarSwap
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-semibold text-neutral-200">StellarSwap</span>
+            <span className="text-[10px] text-neutral-500 font-mono border border-white/[0.06] bg-white/[0.02] rounded px-1.5 py-0.5">
+              v{packageJson.version}
+            </span>
+          </div>
           <span className="text-xs text-neutral-500">
             &copy; {new Date().getFullYear()} StellarSwap. All rights reserved.
           </span>
@@ -35,21 +38,21 @@ export const Footer: React.FC = () => {
         <div className="flex items-center gap-6 text-sm text-neutral-400">
           <a
             href="#"
-            className="hover:text-indigo-400 transition-colors cursor-pointer"
+            className="hover:text-indigo-400 transition-colors cursor-pointer focus-ring rounded-lg px-2 py-0.5"
             onClick={(e) => e.preventDefault()}
           >
             Documentation
           </a>
           <a
             href="#"
-            className="flex items-center gap-1.5 hover:text-indigo-400 transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 hover:text-indigo-400 transition-colors cursor-pointer focus-ring rounded-lg px-2 py-0.5"
             onClick={(e) => e.preventDefault()}
           >
             <GithubIcon className="h-4 w-4" />
             <span>GitHub</span>
           </a>
           <span className="text-neutral-700 border-l border-neutral-800 pl-6 text-xs">
-            Built on <span className="font-semibold text-neutral-300">Stellar</span>
+            Built on <span className="font-semibold text-neutral-400">Stellar</span>
           </span>
         </div>
       </div>

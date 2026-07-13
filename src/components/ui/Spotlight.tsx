@@ -1,12 +1,6 @@
 import { cn } from "../../utils/cn";
 
-export const Spotlight = ({
-  className,
-  fill,
-}: {
-  className?: string;
-  fill?: string;
-}) => {
+export const Spotlight = ({ className, fill }: { className?: string; fill?: string }) => {
   return (
     <svg
       className={cn(
