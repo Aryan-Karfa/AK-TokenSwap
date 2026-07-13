@@ -4,6 +4,14 @@ StellarSwap is a premium decentralized exchange (DEX) interface built on the Ste
 
 ---
 
+## Screenshots
+
+![AK-TokenSwap](./public/1.png)
+![AK-TokenSwap](./public/2.png)
+![AK-TokenSwap](./public/3.png)
+
+---
+
 ## Technical Architecture
 
 StellarSwap decouples UI presentation, React state flows, serverless faucet backends, and blockchain interactions to ensure security and maintainability:
