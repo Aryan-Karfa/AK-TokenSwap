@@ -65,7 +65,8 @@ export const Home: React.FC = () => {
             </Link>
             <a
               href="https://github.com/Aryan-Karfa/AK-TokenSwap"
-              onClick={(e) => e.preventDefault()}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.05] px-6 py-3.5 text-sm font-semibold text-white transition-colors cursor-pointer"
             >
               <GithubIcon className="h-4 w-4 text-neutral-400" />
