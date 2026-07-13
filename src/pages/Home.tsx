@@ -1,69 +1,164 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Zap, Shield, Coins, ArrowRight } from "lucide-react";
+import { Spotlight } from "../components/ui/Spotlight";
+import { BackgroundBeams } from "../components/ui/BackgroundBeams";
+import { AuroraBackground } from "../components/ui/AuroraBackground";
+import { animate, stagger } from "animejs";
+
+const GithubIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    width="24"
+    height="24"
+    stroke="currentColor"
+    strokeWidth="2"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
+  </svg>
+);
 
 export const Home: React.FC = () => {
+  useEffect(() => {
+    animate(".animate-fade", {
+      opacity: [0, 1],
+      translateY: [20, 0],
+      duration: 800,
+      delay: stagger(150),
+      easing: "easeOutQuad",
+    });
+  }, []);
+
   return (
-    <div className="flex flex-col items-center justify-center bg-neutral-950 py-16 px-4 sm:px-6 lg:px-8 flex-1">
-      {/* Hero Section */}
-      <section className="text-center max-w-3xl my-12">
-        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-neutral-100 mb-6">
-          Decentralized Token Swaps on Stellar
-        </h1>
-        <p className="text-lg text-neutral-400 mb-8 max-w-2xl mx-auto">
-          Fast, secure, and low-cost token swaps. Access the Stellar Decentralized Exchange with zero friction.
-        </p>
-        <div>
+    <AuroraBackground>
+      <div className="relative flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] w-full py-16 px-4 sm:px-6 lg:px-8 z-10">
+        {/* Spotlight Overlay */}
+        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="rgba(139,92,246,0.3)" />
+
+        {/* Background Beams */}
+        <BackgroundBeams />
+
+        {/* Hero Section */}
+        <section className="text-center max-w-3xl my-12 relative z-25">
+          <h1 className="animate-fade opacity-0 text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-6">
+            Swap Stellar Assets <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-500">Instantly</span>
+          </h1>
+          <p className="animate-fade opacity-0 text-lg text-neutral-400 mb-8 max-w-2xl mx-auto leading-relaxed">
+            A clean, fast, and secure interface for swapping Stellar assets on the Stellar decentralized exchange.
+          </p>
+          <div className="animate-fade opacity-0 flex flex-wrap justify-center gap-4">
+            <Link
+              to="/swap"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-6 py-3.5 text-sm font-semibold text-neutral-900 hover:bg-white active:scale-95 transition-all cursor-pointer shadow-lg shadow-white/5"
+            >
+              <span>Launch App</span>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a
+              href="#"
+              onClick={(e) => e.preventDefault()}
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.05] px-6 py-3.5 text-sm font-semibold text-white transition-colors cursor-pointer"
+            >
+              <GithubIcon className="h-4 w-4 text-neutral-400" />
+              <span>GitHub</span>
+            </a>
+          </div>
+
+          {/* Under Buttons Tags */}
+          <div className="animate-fade opacity-0 flex items-center justify-center flex-wrap gap-x-6 gap-y-2 mt-8 text-xs text-neutral-500 font-medium select-none">
+            <span className="flex items-center gap-1.5">
+              <span className="text-indigo-400">✓</span> Powered by Stellar
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="text-indigo-400">✓</span> Testnet Ready
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="text-indigo-400">✓</span> Open Source
+            </span>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="animate-fade opacity-0 max-w-5xl my-16 w-full border-t border-white/[0.04] pt-16 relative z-25">
+          <h2 className="text-2xl sm:text-3xl font-bold text-center text-white mb-12 tracking-tight">
+            Designed for Stellar Swaps
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* KokonutUI Cards */}
+            <div className="rounded-2xl border border-white/[0.05] bg-white/[0.02] hover:bg-white/[0.04] p-6 transition-all duration-300">
+              <div className="mb-4 inline-flex rounded-lg bg-indigo-500/10 p-3 text-indigo-400">
+                <Zap className="h-5 w-5" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Fast Transactions</h3>
+              <p className="text-sm text-neutral-400 leading-relaxed">
+                Stellar's consensus protocol settles trades in under 5 seconds, enabling immediate path payment trades.
+              </p>
+            </div>
+            
+            <div className="rounded-2xl border border-white/[0.05] bg-white/[0.02] hover:bg-white/[0.04] p-6 transition-all duration-300">
+              <div className="mb-4 inline-flex rounded-lg bg-indigo-500/10 p-3 text-indigo-400">
+                <Shield className="h-5 w-5" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Secure</h3>
+              <p className="text-sm text-neutral-400 leading-relaxed">
+                Trade directly from your self-custody Freighter wallet. Your private keys never leave your device.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-white/[0.05] bg-white/[0.02] hover:bg-white/[0.04] p-6 transition-all duration-300">
+              <div className="mb-4 inline-flex rounded-lg bg-indigo-500/10 p-3 text-indigo-400">
+                <Coins className="h-5 w-5" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Low Fees</h3>
+              <p className="text-sm text-neutral-400 leading-relaxed">
+                Execute swaps on-ledger for sub-penny fees, avoiding Ethereum-scale gas hikes.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Supported Assets Chips */}
+        <section className="animate-fade opacity-0 max-w-3xl my-8 w-full text-center relative z-25">
+          <h3 className="text-sm font-semibold tracking-wider text-neutral-500 uppercase mb-4 select-none">
+            Supported Assets
+          </h3>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-white/[0.08] bg-white/[0.03] text-sm text-white font-medium select-none hover:bg-white/[0.06] transition-colors">
+              <span className="h-1.5 w-1.5 rounded-full bg-indigo-400" />
+              XLM
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-white/[0.08] bg-white/[0.03] text-sm text-white font-medium select-none hover:bg-white/[0.06] transition-colors">
+              <span className="h-1.5 w-1.5 rounded-full bg-violet-400" />
+              USDC
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-white/[0.08] bg-white/[0.03] text-sm text-white font-medium select-none hover:bg-white/[0.06] transition-colors">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+              AQUA
+            </span>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="animate-fade opacity-0 max-w-3xl my-12 w-full text-center border-t border-white/[0.04] pt-16 relative z-25">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 tracking-tight">
+            Ready to trade Stellar assets?
+          </h2>
+          <p className="text-neutral-400 mb-8 max-w-xl mx-auto">
+            Experience non-custodial swaps with sub-penny fees.
+          </p>
           <Link
             to="/swap"
-            className="inline-flex items-center justify-center rounded-lg bg-neutral-100 px-6 py-3 text-base font-semibold text-neutral-900 hover:bg-neutral-200 transition-colors cursor-pointer"
+            className="inline-flex items-center justify-center rounded-xl bg-neutral-900 border border-white/[0.08] hover:bg-neutral-800 px-6 py-3.5 text-sm font-semibold text-white transition-colors cursor-pointer"
           >
-            Launch App
+            Enter Exchange
           </Link>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="max-w-5xl my-16 w-full border-t border-neutral-900 pt-16">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center text-neutral-100 mb-12">
-          Key Features
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="rounded-xl border border-neutral-800 bg-neutral-900/10 p-6 text-left">
-            <h3 className="text-lg font-bold text-neutral-200 mb-2">Instant Swaps</h3>
-            <p className="text-sm text-neutral-400">
-              Trade Stellar tokens immediately through direct and path payment operations with minimal slippage.
-            </p>
-          </div>
-          <div className="rounded-xl border border-neutral-800 bg-neutral-900/10 p-6 text-left">
-            <h3 className="text-lg font-bold text-neutral-200 mb-2">Wallet Integration</h3>
-            <p className="text-sm text-neutral-400">
-              Connect securely using the Freighter Wallet extension to sign and execute transactions.
-            </p>
-          </div>
-          <div className="rounded-xl border border-neutral-800 bg-neutral-900/10 p-6 text-left">
-            <h3 className="text-lg font-bold text-neutral-200 mb-2">Stellar Speed & Fees</h3>
-            <p className="text-sm text-neutral-400">
-              Benefit from the speed of the Stellar Network with transaction settlement under 5 seconds and sub-penny fees.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="max-w-3xl my-12 w-full text-center border-t border-neutral-900 pt-16">
-        <h2 className="text-2xl sm:text-3xl font-bold text-neutral-100 mb-4">
-          Ready to swap?
-        </h2>
-        <p className="text-neutral-400 mb-8 max-w-xl mx-auto">
-          Get started today by connecting your wallet. Swap between XLM, USDC, and AQUA in seconds.
-        </p>
-        <Link
-          to="/swap"
-          className="inline-flex items-center justify-center rounded-lg bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 px-6 py-3 text-base font-semibold text-neutral-100 transition-colors cursor-pointer"
-        >
-          Enter Exchange
-        </Link>
-      </section>
-    </div>
+        </section>
+      </div>
+    </AuroraBackground>
   );
 };

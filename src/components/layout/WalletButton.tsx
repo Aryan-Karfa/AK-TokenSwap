@@ -1,12 +1,14 @@
 import React from "react";
+import { HoverBorderGradient } from "../ui/HoverBorderGradient";
+import { Wallet } from "lucide-react";
 
 export const WalletButton: React.FC = () => {
   return (
-    <button
-      type="button"
-      className="px-4 py-2 text-sm font-medium text-neutral-100 bg-neutral-800 hover:bg-neutral-700 active:bg-neutral-900 border border-neutral-700 rounded-lg transition-colors cursor-pointer"
-    >
-      Connect Wallet
-    </button>
+    <HoverBorderGradient>
+      <div className="flex items-center gap-2 font-semibold">
+        <Wallet className="h-4 w-4 text-indigo-400" />
+        <span>Connect Wallet</span>
+      </div>
+    </HoverBorderGradient>
   );
 };

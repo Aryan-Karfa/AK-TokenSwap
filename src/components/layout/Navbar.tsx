@@ -1,15 +1,20 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { WalletButton } from "./WalletButton";
+import { Coins } from "lucide-react";
 
 export const Navbar: React.FC = () => {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-neutral-800 bg-neutral-950/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-40 w-full border-b border-neutral-900 bg-neutral-950/70 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Project Logo */}
         <div className="flex items-center gap-2">
-          <Link to="/" className="text-xl font-bold tracking-tight text-neutral-100 hover:text-white transition-colors">
-            StellarSwap
+          <Link
+            to="/"
+            className="flex items-center gap-2.5 text-lg font-bold tracking-tight text-white hover:text-indigo-400 transition-colors"
+          >
+            <Coins className="h-6 w-6 text-indigo-500 animate-pulse" />
+            <span>StellarSwap</span>
           </Link>
         </div>
 
@@ -19,7 +24,7 @@ export const Navbar: React.FC = () => {
             to="/"
             className={({ isActive }) =>
               `text-sm font-medium transition-colors hover:text-neutral-200 ${
-                isActive ? "text-neutral-100 font-semibold" : "text-neutral-400"
+                isActive ? "text-white font-semibold" : "text-neutral-400"
               }`
             }
           >
@@ -29,7 +34,7 @@ export const Navbar: React.FC = () => {
             to="/swap"
             className={({ isActive }) =>
               `text-sm font-medium transition-colors hover:text-neutral-200 ${
-                isActive ? "text-neutral-100 font-semibold" : "text-neutral-400"
+                isActive ? "text-white font-semibold" : "text-neutral-400"
               }`
             }
           >

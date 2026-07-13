@@ -1,13 +1,15 @@
-import React, { useState } from "react";
-import { ArrowDownUp } from "lucide-react";
+import React, { useState, useRef } from "react";
+import { ArrowUpDown, HelpCircle } from "lucide-react";
 import { AmountInput } from "./AmountInput";
 import { TokenSelector } from "./TokenSelector";
 import { SwapButton } from "./SwapButton";
+import { animate } from "animejs";
 
 export const SwapCard: React.FC = () => {
   const [fromToken, setFromToken] = useState<string>("XLM");
   const [toToken, setToToken] = useState<string>("USDC");
   const [fromAmount, setFromAmount] = useState<string>("");
+  const iconRef = useRef<SVGSVGElement>(null);
 
   const handleSwapDirection = () => {
     const temp = fromToken;
@@ -15,17 +17,27 @@ export const SwapCard: React.FC = () => {
     setToToken(temp);
   };
 
+  const handleMouseEnter = () => {
+    if (iconRef.current) {
+      animate(iconRef.current, {
+        rotate: "+=180",
+        duration: 350,
+        easing: "easeInOutSine",
+      });
+    }
+  };
+
   return (
-    <div className="w-full max-w-md rounded-2xl border border-neutral-800 bg-neutral-900/30 p-6 shadow-xl">
+    <div className="w-full max-w-[480px] rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-md p-6 shadow-2xl z-10 relative">
       {/* Card Header */}
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-bold tracking-tight text-neutral-100">Swap</h2>
+      <div className="mb-6 flex items-center justify-between">
+        <h2 className="text-xl font-bold tracking-tight text-white">Swap</h2>
       </div>
 
-      {/* From Input Section */}
-      <div className="rounded-xl bg-neutral-950 p-4 border border-neutral-800/60">
-        <div className="flex justify-between items-center mb-1">
-          <span className="text-xs font-medium text-neutral-500">From</span>
+      {/* FROM Container */}
+      <div className="rounded-xl bg-neutral-900/40 p-4 border border-white/[0.03] mb-2">
+        <div className="flex justify-between items-center mb-1.5">
+          <span className="text-xs font-semibold text-neutral-400">FROM</span>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex-1">
@@ -41,26 +53,27 @@ export const SwapCard: React.FC = () => {
         </div>
       </div>
 
-      {/* Swap Direction Toggler */}
-      <div className="my-2 flex justify-center">
+      {/* Switcher Button */}
+      <div className="flex justify-center -my-2.5 relative z-10">
         <button
           type="button"
           onClick={handleSwapDirection}
-          className="rounded-lg border border-neutral-800 bg-neutral-900 p-2 text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200 transition-colors cursor-pointer"
+          onMouseEnter={handleMouseEnter}
+          className="rounded-full border border-neutral-800 bg-neutral-900 p-2 text-neutral-400 hover:text-indigo-400 hover:border-indigo-500/50 shadow-md transition-colors cursor-pointer"
           aria-label="Swap direction"
         >
-          <ArrowDownUp className="h-4 w-4" />
+          <ArrowUpDown ref={iconRef} className="h-4 w-4" />
         </button>
       </div>
 
-      {/* To Input Section */}
-      <div className="rounded-xl bg-neutral-950 p-4 border border-neutral-800/60 mb-6">
-        <div className="flex justify-between items-center mb-1">
-          <span className="text-xs font-medium text-neutral-500">To (Estimated)</span>
+      {/* TO Container */}
+      <div className="rounded-xl bg-neutral-900/40 p-4 border border-white/[0.03] mt-2 mb-6">
+        <div className="flex justify-between items-center mb-1.5">
+          <span className="text-xs font-semibold text-neutral-400">TO</span>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex-1">
-            <span className="text-lg font-medium text-neutral-500 block py-2 px-1">
+            <span className="text-lg font-medium text-neutral-500 block py-1.5 px-3 bg-neutral-950 border border-neutral-800 rounded-lg h-10 select-none">
               --
             </span>
           </div>
@@ -68,15 +81,36 @@ export const SwapCard: React.FC = () => {
             <TokenSelector value={toToken} onChange={setToToken} />
           </div>
         </div>
+      </div>
 
-        {/* Estimated Output message block */}
-        <div className="mt-3 flex items-center justify-between border-t border-neutral-900 pt-3 text-xs text-neutral-500">
-          <span>Exchange Rate</span>
-          <span>Quote unavailable</span>
+      {/* Info Sections */}
+      <div className="rounded-xl border border-white/[0.03] bg-neutral-950/40 p-4 space-y-3 mb-6">
+        <div className="flex items-center justify-between text-xs">
+          <div className="flex items-center gap-1 text-neutral-400">
+            <span>Estimated Output</span>
+            <HelpCircle className="h-3 w-3 text-neutral-500" />
+          </div>
+          <span className="text-neutral-500">Quote unavailable</span>
+        </div>
+        <div className="h-[1px] bg-white/[0.02]" />
+        <div className="flex items-center justify-between text-xs">
+          <span className="text-neutral-400">Network</span>
+          <span className="text-neutral-300 font-semibold flex items-center gap-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Testnet Ready</span>
+          </span>
+        </div>
+        <div className="flex items-center justify-between text-xs">
+          <span className="text-neutral-400">Fee</span>
+          <span className="text-neutral-500">--</span>
+        </div>
+        <div className="flex items-center justify-between text-xs">
+          <span className="text-neutral-400">Estimated Time</span>
+          <span className="text-neutral-500">--</span>
         </div>
       </div>
 
-      {/* Action Swap Button */}
+      {/* Swap Button */}
       <SwapButton label="Swap" disabled={true} />
     </div>
   );
