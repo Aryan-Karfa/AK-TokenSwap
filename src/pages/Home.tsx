@@ -64,7 +64,7 @@ export const Home: React.FC = () => {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <a
-              href="#"
+              href="https://github.com/Aryan-Karfa/AK-TokenSwap"
               onClick={(e) => e.preventDefault()}
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.05] px-6 py-3.5 text-sm font-semibold text-white transition-colors cursor-pointer"
             >
