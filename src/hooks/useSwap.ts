@@ -4,6 +4,9 @@ import { buildSwapTransaction, submitSwapTransaction } from "../services/swap";
 import { signTransaction } from "@stellar/freighter-api";
 import { Asset } from "@stellar/stellar-sdk";
 import { logger } from "../utils/logger";
+import { NETWORK_PASSPHRASE } from "../services/stellar";
+import { mapFreighterError } from "../utils/errors";
+import { runDiagnostics } from "../utils/diagnostics";
 
 export type SwapStatus = "idle" | "pending" | "submitting" | "confirmed" | "failed";
 
@@ -43,12 +46,20 @@ export const useSwap = () => {
         const xdr = await buildSwapTransaction(address, fromToken, toToken, amount, destMin, path);
 
         setStatus("submitting");
+
+        // Run developer diagnostics before signing
+        await runDiagnostics("Before Swap signing", xdr, { networkPassphrase: NETWORK_PASSPHRASE });
+
         const signResult = await signTransaction(xdr, {
-          networkPassphrase: "Testnet Global Stellar Network ; September 2015",
+          networkPassphrase: NETWORK_PASSPHRASE,
         });
 
         if (signResult.error) {
-          throw new Error(signResult.error.message || "Signing was rejected by the user.");
+          throw mapFreighterError(signResult.error, NETWORK_PASSPHRASE);
+        }
+
+        if (!signResult.signedTxXdr) {
+          throw new Error("No signed transaction XDR returned from Freighter.");
         }
 
         const hash = await submitSwapTransaction(signResult.signedTxXdr);
@@ -59,7 +70,16 @@ export const useSwap = () => {
         await refreshBalances();
       } catch (err: unknown) {
         logger.error("Swap tx execution error:", err);
-        setError(err instanceof Error ? err.message : "Transaction execution failed.");
+
+        let userMessage = "Transaction execution failed.";
+        if (err instanceof Error) {
+          userMessage = err.message;
+        } else if (typeof err === "object" && err !== null && "message" in err) {
+          const mapped = mapFreighterError(err, NETWORK_PASSPHRASE);
+          userMessage = mapped.message;
+        }
+
+        setError(userMessage);
         setStatus("failed");
       }
     },

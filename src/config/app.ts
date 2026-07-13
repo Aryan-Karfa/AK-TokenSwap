@@ -3,11 +3,15 @@ const getEnv = (key: string, defaultValue: string): string => {
   return value !== undefined && value !== "" ? value : defaultValue;
 };
 
+import { Networks } from "@stellar/stellar-sdk";
+
+const stellarNetwork = getEnv("VITE_STELLAR_NETWORK", "TESTNET");
+
 export const APP_CONFIG = {
-  STELLAR_NETWORK: getEnv("VITE_STELLAR_NETWORK", "TESTNET"),
+  STELLAR_NETWORK: stellarNetwork,
   HORIZON_URL: getEnv("VITE_HORIZON_URL", "https://horizon-testnet.stellar.org"),
   RPC_URL: getEnv("VITE_RPC_URL", "https://soroban-testnet.stellar.org"),
-  NETWORK_PASSPHRASE: "Test SDF Network ; September 2015",
+  NETWORK_PASSPHRASE: stellarNetwork === "PUBLIC" ? Networks.PUBLIC : Networks.TESTNET,
   VERSION: "1.0.0",
 };
 

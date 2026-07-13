@@ -37,6 +37,10 @@ vi.mock("@stellar/stellar-sdk", () => {
     TransactionBuilder: vi.fn(),
     Operation: vi.fn(),
     TimeoutInfinite: 999999,
+    Networks: {
+      PUBLIC: "Public Global Stellar Network ; September 2015",
+      TESTNET: "Test SDF Network ; September 2015",
+    },
   };
 });
 

@@ -8,6 +8,8 @@ import {
 import { signTransaction } from "@stellar/freighter-api";
 import { HORIZON_URL, NETWORK_PASSPHRASE } from "./stellar";
 import { logger } from "../utils/logger";
+import { mapFreighterError, mapStellarError } from "../utils/errors";
+import { runDiagnostics } from "../utils/diagnostics";
 
 export const createTrustline = async (
   userAddress: string,
@@ -36,12 +38,20 @@ export const createTrustline = async (
     const xdr = transaction.toXDR();
 
     // Request signature from Freighter Wallet
+    await runDiagnostics("Before Trustline signing", xdr, {
+      networkPassphrase: NETWORK_PASSPHRASE,
+    });
+
     const signResult = await signTransaction(xdr, {
       networkPassphrase: NETWORK_PASSPHRASE,
     });
 
     if (signResult.error) {
-      throw new Error(signResult.error.message || "Signing was rejected by the user.");
+      throw mapFreighterError(signResult.error, NETWORK_PASSPHRASE);
+    }
+
+    if (!signResult.signedTxXdr) {
+      throw new Error("No signed transaction XDR returned from Freighter.");
     }
 
     const tx = TransactionBuilder.fromXDR(signResult.signedTxXdr, NETWORK_PASSPHRASE);
@@ -51,9 +61,16 @@ export const createTrustline = async (
     return response.hash;
   } catch (err: unknown) {
     logger.error(`Failed to create trustline for ${assetCode}:`, err);
-    if (err instanceof Error) {
+
+    if (
+      err instanceof Error &&
+      (err.message.includes("declined") ||
+        err.message.includes("Mismatch") ||
+        err.message.includes("locked"))
+    ) {
       throw err;
     }
-    throw new Error(`Trustline establishment failed for ${assetCode}.`, { cause: err });
+
+    throw mapStellarError(err, `Trustline establishment failed for ${assetCode}.`);
   }
 };

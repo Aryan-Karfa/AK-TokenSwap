@@ -7,7 +7,8 @@ import {
   WatchWalletChanges,
 } from "@stellar/freighter-api";
 import { Horizon } from "@stellar/stellar-sdk";
-import { HORIZON_URL } from "../services/stellar";
+import { HORIZON_URL, STELLAR_NETWORK } from "../services/stellar";
+import { runDiagnostics } from "../utils/diagnostics";
 
 export interface BalanceLine {
   balance: string;
@@ -114,9 +115,13 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
       const net = await getNetwork();
       setNetwork(net.network);
-      if (net.network !== "TESTNET") {
+
+      // Run dev diagnostics on connection
+      await runDiagnostics("Wallet Connection Success");
+
+      if (net.network !== STELLAR_NETWORK) {
         setNetworkWarning(
-          "Freighter is not connected to TESTNET. Please switch networks in settings."
+          `Freighter is not connected to ${STELLAR_NETWORK}. Please switch networks in settings.`
         );
       } else {
         setNetworkWarning(null);
@@ -156,8 +161,14 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             setIsConnected(true);
             getNetwork().then((net) => {
               setNetwork(net.network);
-              if (net.network !== "TESTNET") {
-                setNetworkWarning("Freighter is not connected to TESTNET. Please switch networks.");
+
+              // Run diagnostics silently on startup
+              runDiagnostics("Wallet Auto-Connect");
+
+              if (net.network !== STELLAR_NETWORK) {
+                setNetworkWarning(
+                  `Freighter is not connected to ${STELLAR_NETWORK}. Please switch networks.`
+                );
               }
             });
           }

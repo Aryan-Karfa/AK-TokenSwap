@@ -6,7 +6,7 @@ import {
   TimeoutInfinite,
 } from "@stellar/stellar-sdk";
 import { HORIZON_URL, NETWORK_PASSPHRASE } from "./stellar";
-import { logger } from "../utils/logger";
+import { mapStellarError } from "../utils/errors";
 
 export interface QuoteResult {
   destinationAmount: string;
@@ -21,67 +21,6 @@ interface PathRecord {
     asset_issuer?: string;
   }>;
 }
-
-// Convert raw Horizon and transaction operation errors to user-friendly messages
-const mapStellarError = (err: unknown, defaultMessage: string): Error => {
-  logger.error(`Stellar operation failed: ${defaultMessage}`, err);
-
-  if (err instanceof Error && err.message.includes("Timeout")) {
-    return new Error("Transaction request timed out. Please check network speed and try again.");
-  }
-
-  const errorObj = err as {
-    response?: {
-      status?: number;
-      data?: {
-        detail?: string;
-        extras?: {
-          result_codes?: {
-            operations?: string[];
-            transaction?: string;
-          };
-        };
-      };
-    };
-    message?: string;
-  };
-
-  const status = errorObj.response?.status;
-  const resultCodes = errorObj.response?.data?.extras?.result_codes;
-
-  if (status === 404) {
-    return new Error(
-      "Stellar Testnet swap path or account was not found. Please ensure account is funded."
-    );
-  }
-
-  if (resultCodes) {
-    const opCodes = resultCodes.operations || [];
-    if (
-      opCodes.includes("op_underfunded") ||
-      resultCodes.transaction === "tx_insufficient_balance"
-    ) {
-      return new Error(
-        "Insufficient XLM or token balances to cover this swap and transaction fees."
-      );
-    }
-    if (opCodes.includes("op_no_trust")) {
-      return new Error(
-        "Destination token trustline is missing. Please add it to your Freighter wallet."
-      );
-    }
-    if (opCodes.includes("op_no_destination")) {
-      return new Error("Receiver address is not funded on Testnet. Fund it via Friendbot.");
-    }
-    if (opCodes.includes("op_over_source_max")) {
-      return new Error(
-        "The required source amount exceeds your maximum limit due to price movement."
-      );
-    }
-  }
-
-  return new Error(errorObj.message || defaultMessage);
-};
 
 export const getQuote = async (
   fromToken: { code: string; issuer?: string },
